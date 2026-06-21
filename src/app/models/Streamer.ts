@@ -1,9 +1,9 @@
 import { Region } from './Region';
 
 export class Streamer {
-    IdStreamer: number = 0;
-    Nickname: string = '';
-    Genero: string = '';
-    FechaRegistroApp: string = '';
+    idStreamer: number = 0;
+    nickname: string = '';
+    genero: string = '';
+    fechaRegistroApp: string = '';
     region: Region = new Region();
 }

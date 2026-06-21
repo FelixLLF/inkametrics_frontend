@@ -1,5 +1,5 @@
 export class Plataforma {
-    IdPlataforma: number = 0;
-    Nombre: string = '';
+    idPlataforma: number = 0;
+    nombre: string = '';
     urlBase: string = '';
 }

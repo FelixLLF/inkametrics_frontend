@@ -1,8 +1,8 @@
 import { Plan } from './Plan';
 
 export class Empresa {
-    IdEmpresa: number = 0;
-    NombreComercial: string = '';
-    Ruc: string = '';
-    Plan: Plan = new Plan();
+    idEmpresa: number = 0;
+    nombreComercial: string = '';
+    ruc: string = '';
+    plan: Plan = new Plan();
 }

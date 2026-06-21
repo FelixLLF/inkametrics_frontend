@@ -1,5 +1,5 @@
 export class Marca {
-    IdMarca: number = 0;
-    Nombre: string = '';
-    Sector: string = '';
+    idMarca: number = 0;
+    nombre: string = '';
+    sector: string = '';
 }

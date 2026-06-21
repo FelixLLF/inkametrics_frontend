@@ -1,4 +1,4 @@
 export class Region {
-    IdRegion: number = 0;
-    Nombre: string = '';
+    idRegion: number = 0;
+    nombre: string = '';
 }

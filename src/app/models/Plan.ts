@@ -1,6 +1,6 @@
 export class Plan {
-    IdPlan: number = 0;
-    Nombre: string = '';
-    PrecioMensual: number = 0;
-    LimiteApi: number = 0;
+    idPlan: number = 0;
+    nombre: string = '';
+    precioMensual: number = 0;
+    limiteApi: number = 0;
 }
