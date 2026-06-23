@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,26 +14,29 @@ import { MarcaService } from '../../../services/marca-service';
   templateUrl: './marca-listar.html',
   styleUrl: './marca-listar.css',
 })
-export class MarcaListar implements OnInit {
+export class MarcaListar implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<Marca> = new MatTableDataSource();
   displayedColumns: string[] = ['c1', 'c2', 'c3', 'c4', 'c5'];
+  private routerSub?: Subscription;
 
-  constructor(private cS: MarcaService, private router: Router) {}
+  constructor(private marcaService: MarcaService, private router: Router) {}
 
   ngOnInit(): void {
     this.cargar();
-    this.router.events.subscribe(event => {
+    this.routerSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) { this.cargar(); }
     });
   }
 
+  ngOnDestroy(): void { this.routerSub?.unsubscribe(); }
+
   cargar() {
-    this.cS.list().subscribe({ next: (data) => { this.dataSource.data = data; } });
+    this.marcaService.list().subscribe({ next: (data) => { this.dataSource.data = data; } });
   }
 
   eliminar(id: number) {
-    if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-      this.cS.delete(id).subscribe(() => { this.cargar(); });
+    if (confirm('⚠️ Al eliminar esta Marca se eliminarán también:\n→ Todas las Detecciones Publicitarias asociadas\n\n¿Deseas continuar?')) {
+      this.marcaService.delete(id).subscribe(() => { this.cargar(); });
     }
   }
 }

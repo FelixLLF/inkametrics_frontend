@@ -1,5 +1,5 @@
 <div class="container">
-  <div style="text-align: center; margin: 5%"><h2>Lista de Streamers</h2></div>
+  <div style="text-align: center; margin: 5%"><h2>Streamers</h2></div>
   <div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="c1">
@@ -15,23 +15,22 @@
         <td mat-cell *matCellDef="let element">{{ element.genero }}</td>
       </ng-container>
       <ng-container matColumnDef="c4">
-        <th mat-header-cell *matHeaderCellDef>Fecha Registro</th>
-        <td mat-cell *matCellDef="let element">{{ element.fechaRegistroApp }}</td>
+        <th mat-header-cell *matHeaderCellDef>Fecha de Registro</th>
+        <td mat-cell *matCellDef="let element">{{ element.fechaRegistroApp ?? '—' }}</td>
       </ng-container>
       <ng-container matColumnDef="c5">
         <th mat-header-cell *matHeaderCellDef>Región</th>
         <td mat-cell *matCellDef="let element">{{ element.region?.nombre }}</td>
       </ng-container>
       <ng-container matColumnDef="c6">
-        <th mat-header-cell *matHeaderCellDef>Actualizar</th>
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
         <td mat-cell *matCellDef="let element">
-          <button matButton [routerLink]="['/streamers/editar', element.idStreamer]"><mat-icon>edit</mat-icon></button>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="c7">
-        <th mat-header-cell *matHeaderCellDef>Eliminar</th>
-        <td mat-cell *matCellDef="let element">
-          <button matButton (click)="eliminar(element.idStreamer)"><mat-icon>delete</mat-icon></button>
+          <button matButton [routerLink]="['/streamers/editar', element.idStreamer]" title="Editar">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button matButton (click)="eliminar(element.idStreamer)" title="Eliminar">
+            <mat-icon>delete</mat-icon>
+          </button>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

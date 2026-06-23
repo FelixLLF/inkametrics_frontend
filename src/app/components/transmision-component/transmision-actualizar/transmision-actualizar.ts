@@ -58,6 +58,12 @@ export class TransmisionActualizar implements OnInit {
     });
   }
 
+  compareById(a: any, b: any): boolean {
+    if (!a || !b) return a === b;
+    const key = Object.keys(a).find(k => k.toLowerCase().startsWith('id'));
+    return key ? a[key] === b[key] : a === b;
+  }
+
   aceptar(): void {
     if (this.form.valid) {
       this.obj.idTransmision = this.form.value.codigo;

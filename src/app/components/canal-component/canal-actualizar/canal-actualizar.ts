@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -32,13 +32,12 @@ export class CanalActualizar implements OnInit {
     private streamerS: StreamerService,
     private router: Router,
     private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.plataformaS.list().subscribe(data => { this.listaPlataformas = data; this.cdr.detectChanges(); });
-    this.streamerS.list().subscribe(data => { this.listaStreamers = data; this.cdr.detectChanges(); });
+    this.plataformaS.list().subscribe(data => { this.listaPlataformas = data; });
+    this.streamerS.list().subscribe(data => { this.listaStreamers = data; });
     this.route.params.subscribe((params: Params) => {
       this.id = params['id'];
       this.init();
@@ -62,6 +61,12 @@ export class CanalActualizar implements OnInit {
         streamer: data.streamer,
       });
     });
+  }
+
+  compareById(a: any, b: any): boolean {
+    if (!a || !b) return a === b;
+    const key = Object.keys(a).find(k => k.toLowerCase().startsWith('id'));
+    return key ? a[key] === b[key] : a === b;
   }
 
   aceptar(): void {

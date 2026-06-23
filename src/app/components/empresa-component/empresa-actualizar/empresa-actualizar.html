@@ -18,7 +18,7 @@
       </mat-form-field><br/>
       <mat-form-field>
         <mat-label>Plan</mat-label>
-        <mat-select formControlName="plan">
+        <mat-select formControlName="plan" [compareWith]="compareById">
           @for (item of listaPlanes; track item.idPlan) {
             <mat-option [value]="item">{{ item.nombre }}</mat-option>
           }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,29 +10,43 @@ import { StreamerService } from '../../../services/streamer-service';
 
 @Component({
   selector: 'app-streamer-listar',
-  imports: [MatTableModule, CommonModule, MatIconModule, RouterLink, MatButtonModule],
+  imports: [
+    MatTableModule,
+    CommonModule,
+    MatIconModule,
+    RouterLink,
+    MatButtonModule,
+  ],
   templateUrl: './streamer-listar.html',
   styleUrl: './streamer-listar.css',
 })
-export class StreamerListar implements OnInit {
+export class StreamerListar implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<Streamer> = new MatTableDataSource();
-  displayedColumns: string[] = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7'];
+  displayedColumns: string[] = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6'];
+  private routerSub?: Subscription;
 
-  constructor(private cS: StreamerService, private router: Router) {}
+  constructor(
+    private cS: StreamerService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.cargar();
-    this.router.events.subscribe(event => {
+    this.routerSub = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) { this.cargar(); }
     });
   }
 
+  ngOnDestroy(): void { this.routerSub?.unsubscribe(); }
+
   cargar() {
-    this.cS.list().subscribe({ next: (data) => { this.dataSource.data = data; } });
+    this.cS.list().subscribe({
+      next: (data) => { this.dataSource.data = data; }
+    });
   }
 
   eliminar(id: number) {
-    if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+    if (confirm('⚠️ Al eliminar este Streamer se eliminarán también:\n→ Canales asociados\n→ Transmisiones de esos canales\n→ Métricas y Detecciones de esas transmisiones\n\n¿Deseas continuar?')) {
       this.cS.delete(id).subscribe(() => { this.cargar(); });
     }
   }

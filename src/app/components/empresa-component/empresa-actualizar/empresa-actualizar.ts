@@ -50,6 +50,12 @@ export class EmpresaActualizar implements OnInit {
     });
   }
 
+  compareById(a: any, b: any): boolean {
+    if (!a || !b) return a === b;
+    const key = Object.keys(a).find(k => k.toLowerCase().startsWith('id'));
+    return key ? a[key] === b[key] : a === b;
+  }
+
   aceptar(): void {
     if (this.form.valid) {
       this.obj.idEmpresa = this.form.value.codigo;

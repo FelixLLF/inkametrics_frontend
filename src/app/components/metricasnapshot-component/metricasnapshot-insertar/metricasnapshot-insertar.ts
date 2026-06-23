@@ -6,14 +6,16 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MetricaSnapshot } from '../../../models/MetricaSnapshot';
 import { MetricasnapshotService } from '../../../services/metricasnapshot-service';
 import { Transmision } from '../../../models/Transmision';
 import { TransmisionService } from '../../../services/transmision-service';
+import { PlatformResolverService } from '../../../services/platform-resolver-service';
 
 @Component({
   selector: 'app-metricasnapshot-insertar',
-  imports: [MatInputModule, MatButtonModule, MatIconModule, MatSelectModule, ReactiveFormsModule, CommonModule],
+  imports: [MatInputModule, MatButtonModule, MatIconModule, MatSelectModule, MatProgressSpinnerModule, ReactiveFormsModule, CommonModule],
   templateUrl: './metricasnapshot-insertar.html',
   styleUrl: './metricasnapshot-insertar.css',
 })
@@ -21,8 +23,27 @@ export class MetricasnapshotInsertar implements OnInit {
   form: FormGroup = new FormGroup({});
   obj: MetricaSnapshot = new MetricaSnapshot();
   listaTransmisiones: Transmision[] = [];
+  buscando = false;
+  mensajePlataforma = '';
+  datosPlataforma: any = null;
 
-  constructor(private cS: MetricasnapshotService, private transmisionS: TransmisionService, private router: Router, private fb: FormBuilder) {}
+  readonly METRICAS = [
+    { valor: 'viewers',    label: 'Espectadores en vivo',  fuente: 'viewers' },
+    { valor: 'seguidores', label: 'Seguidores del canal',  fuente: 'followers' },
+    { valor: 'clips',      label: 'Clips generados',       fuente: null },
+    { valor: 'chat',       label: 'Mensajes de chat',      fuente: null },
+    { valor: 'donaciones', label: 'Donaciones recibidas',  fuente: null },
+    { valor: 'subs',       label: 'Suscriptores nuevos',   fuente: null },
+    { valor: 'hype_train', label: 'Hype Train activado',   fuente: null },
+  ];
+
+  constructor(
+    private cS: MetricasnapshotService,
+    private transmisionS: TransmisionService,
+    private resolver: PlatformResolverService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.transmisionS.list().subscribe(data => { this.listaTransmisiones = data; });
@@ -31,6 +52,51 @@ export class MetricasnapshotInsertar implements OnInit {
       cantidad: ['', Validators.required],
       transmision: [null, Validators.required],
     });
+  }
+
+  alSeleccionarTransmision(): void {
+    const transmision: Transmision = this.form.value.transmision;
+    const urlCanal = (transmision as any)?.canal?.urlCanal;
+    if (!urlCanal) return;
+
+    this.buscando = true;
+    this.mensajePlataforma = '';
+
+    this.resolver.resolve(urlCanal).subscribe({
+      next: (data) => {
+        this.buscando = false;
+        this.datosPlataforma = data;
+        const estado = data?.isLive
+          ? `✓ En vivo — ${data.stream!.viewers.toLocaleString()} viewers | ${data.followers.toLocaleString()} seguidores`
+          : data
+            ? `Canal offline — ${data.followers.toLocaleString()} seguidores`
+            : '';
+        this.mensajePlataforma = estado;
+        this.autocompletarCantidad();
+      },
+      error: () => {
+        this.buscando = false;
+        this.mensajePlataforma = '✗ No se pudo obtener datos';
+      }
+    });
+  }
+
+  alSeleccionarMetrica(): void {
+    this.autocompletarCantidad();
+  }
+
+  private autocompletarCantidad(): void {
+    const metricaValor = this.form.value.nombre;
+    const metrica = this.METRICAS.find(m => m.valor === metricaValor);
+    if (!metrica?.fuente || !this.datosPlataforma) return;
+
+    let cantidad: number | null = null;
+    if (metrica.fuente === 'viewers' && this.datosPlataforma.isLive) {
+      cantidad = this.datosPlataforma.stream?.viewers ?? null;
+    } else if (metrica.fuente === 'followers') {
+      cantidad = this.datosPlataforma.followers ?? null;
+    }
+    if (cantidad !== null) this.form.patchValue({ cantidad });
   }
 
   aceptar(): void {

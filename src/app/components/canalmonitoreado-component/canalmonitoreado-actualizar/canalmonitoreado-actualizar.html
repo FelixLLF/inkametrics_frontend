@@ -8,7 +8,7 @@
       </mat-form-field><br/>
       <mat-form-field>
         <mat-label>Canal</mat-label>
-        <mat-select formControlName="canal">
+        <mat-select formControlName="canal" [compareWith]="compareById">
           @for (item of listaCanales; track item.idCanal) {
             <mat-option [value]="item">{{ item.urlCanal }}</mat-option>
           }
@@ -17,7 +17,7 @@
       </mat-form-field><br/>
       <mat-form-field>
         <mat-label>Empresa</mat-label>
-        <mat-select formControlName="empresa">
+        <mat-select formControlName="empresa" [compareWith]="compareById">
           @for (item of listaEmpresas; track item.idEmpresa) {
             <mat-option [value]="item">{{ item.nombreComercial }}</mat-option>
           }

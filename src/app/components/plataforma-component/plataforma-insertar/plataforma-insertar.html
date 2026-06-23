@@ -9,8 +9,8 @@
       </mat-form-field><br/>
       <mat-form-field>
         <mat-label>URL Base</mat-label>
-        <input matInput formControlName="urlBase" />
-        <mat-error>@if (form.get('urlBase')?.hasError('required')) { Ingrese la URL base }</mat-error>
+        <input matInput formControlName="urlBase" placeholder="ej: youtube.com" />
+<mat-error>@if (form.get('urlBase')?.hasError('required')) { Ingrese la URL base }</mat-error>
       </mat-form-field><br/>
       <div><button matButton="elevated">Registrar</button></div>
     </form>

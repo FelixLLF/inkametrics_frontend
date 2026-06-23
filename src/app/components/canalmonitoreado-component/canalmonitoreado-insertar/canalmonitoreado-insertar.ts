@@ -12,8 +12,6 @@ import { Canal } from '../../../models/Canal';
 import { CanalService } from '../../../services/canal-service';
 import { Empresa } from '../../../models/Empresa';
 import { EmpresaService } from '../../../services/empresa-service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-canalmonitoreado-insertar',
@@ -33,8 +31,7 @@ export class CanalmonitoreadoInsertar implements OnInit {
     private empresaS: EmpresaService,
     private router: Router,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef,
-    private http: HttpClient
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +49,6 @@ export class CanalmonitoreadoInsertar implements OnInit {
       this.obj.empresa = this.form.value.empresa;
       this.cS.insert(this.obj).subscribe({
         next: () => {
-          this.http.post(`${environment.base}/api/sync/ejecutar`, {}).subscribe();
           this.router.navigate(['/canales-monitoreados/lista']);
         }
       });

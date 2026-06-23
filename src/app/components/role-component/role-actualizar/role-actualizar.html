@@ -13,7 +13,7 @@
       </mat-form-field><br/>
       <mat-form-field>
         <mat-label>Usuario</mat-label>
-        <mat-select formControlName="user">
+        <mat-select formControlName="user" [compareWith]="compareById">
           @for (item of listaUsuarios; track item.id) {
             <mat-option [value]="item">{{ item.username }}</mat-option>
           }

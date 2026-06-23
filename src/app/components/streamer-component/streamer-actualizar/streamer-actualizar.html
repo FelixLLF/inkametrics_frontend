@@ -32,7 +32,7 @@
       </div><br/>
       <mat-form-field>
         <mat-label>Región</mat-label>
-        <mat-select formControlName="region">
+        <mat-select formControlName="region" [compareWith]="compareById">
           @for (item of listaRegiones; track item.idRegion) {
             <mat-option [value]="item">{{ item.nombre }}</mat-option>
           }

@@ -14,8 +14,8 @@
       </ng-container>
 
       <ng-container matColumnDef="c3">
-        <th mat-header-cell *matHeaderCellDef>Cantidad</th>
-        <td mat-cell *matCellDef="let element">{{ element.cantidad }}</td>
+        <th mat-header-cell *matHeaderCellDef>Cantidad (viewers)</th>
+        <td mat-cell *matCellDef="let element">{{ element.cantidad || '—' }}</td>
       </ng-container>
 
       <ng-container matColumnDef="c4">
