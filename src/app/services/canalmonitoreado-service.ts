@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { CanalMonitoreado } from '../models/CanalMonitoreado';
 
 const base_url = environment.base;
