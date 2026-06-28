@@ -22,7 +22,7 @@ export class ReportService {
   getMetricNames(): Observable<string[]> {
     if (!this.metricNames$) {
       this.metricNames$ = this.http
-        .get<string[]>(`${this.url}/nombres-metrica`)
+        .get<string[]>(`${this.url}/metric-names`)
         .pipe(shareReplay(1));
     }
     return this.metricNames$;
@@ -32,7 +32,7 @@ export class ReportService {
     if (!this.topBroadcasts$.has(metricName)) {
       const obs$ = this.http
         .get<MetricsByBroadcastDTO[]>(
-          `${this.url}/reporte-top-transmisiones?nombreMetrica=${metricName}`
+          `${this.url}/reporte-top-transmisiones?metricName=${metricName}`
         )
         .pipe(shareReplay(1));
       this.topBroadcasts$.set(metricName, obs$);
