@@ -28,7 +28,6 @@ export class CompanyService {
     return this.http.get<Company>(`${this.url}/${id}`);
   }
 
-  // 👇 AQUÍ ESTÁ EL MÉTODO QUE FALTABA 👇
   buscarPorPlan(idPlan: number) {
     return this.http.get<Company[]>(`${this.url}/buscar-por-plan?idPlan=${idPlan}`);
   }
