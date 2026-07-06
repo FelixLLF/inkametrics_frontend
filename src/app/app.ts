@@ -18,7 +18,8 @@ export class App {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      this.showMenu = event.urlAfterRedirects !== '/login';
+      const publicas = ['/', '/login', '/register'];
+      this.showMenu = !publicas.includes(event.urlAfterRedirects);
     });
   }
 }

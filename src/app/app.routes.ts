@@ -71,11 +71,12 @@ import { MetricsByRegion } from './components/metrics-by-region-component/metric
 import { DashboardComponent } from './components/dashboard/dashboard';
 import { Authenticate } from './components/authenticate/authenticate';
 import { Register } from './components/register/register';
+import { Landing } from './components/landing/landing';
 import { seguridadGuard } from './guard/seguridad-guard';
 import { adminGuard } from './guard/admin-guard';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: '', component: Landing },
     { path: 'login', component: Authenticate },
     { path: 'register', component: Register },
     { path: 'homes', component: HomeComponent, canActivate: [seguridadGuard] },
@@ -86,105 +87,105 @@ export const routes: Routes = [
     {
         path: 'brands', component: BrandComponent, canActivate: [seguridadGuard],
         children: [
-            { path: 'create', component: BrandCreate },
+            { path: 'create', component: BrandCreate, canActivate: [adminGuard] },
             { path: 'list', component: BrandList },
-            { path: 'edit/:id', component: BrandEdit },
+            { path: 'edit/:id', component: BrandEdit, canActivate: [adminGuard] },
         ]
     },
     {
         path: 'platforms', component: PlatformComponent, canActivate: [seguridadGuard],
         children: [
-            { path: 'create', component: PlatformCreate },
+            { path: 'create', component: PlatformCreate, canActivate: [adminGuard] },
             { path: 'list', component: PlatformList },
-            { path: 'edit/:id', component: PlatformEdit },
+            { path: 'edit/:id', component: PlatformEdit, canActivate: [adminGuard] },
         ]
     },
     {
         path: 'companies', component: CompanyComponent, canActivate: [seguridadGuard],
         children: [
-            { path: 'create', component: CompanyCreate },
+            { path: 'create', component: CompanyCreate, canActivate: [adminGuard] },
             { path: 'list', component: CompanyList },
-            { path: 'edit/:id', component: CompanyEdit },
+            { path: 'edit/:id', component: CompanyEdit, canActivate: [adminGuard] },
         ]
     },
     {
         path: 'channels', component: ChannelComponent, canActivate: [seguridadGuard],
         children: [
-            { path: 'create', component: ChannelCreate },
+            { path: 'create', component: ChannelCreate, canActivate: [adminGuard] },
             { path: 'list', component: ChannelList },
-            { path: 'edit/:id', component: ChannelEdit },
+            { path: 'edit/:id', component: ChannelEdit, canActivate: [adminGuard] },
         ]
     },
     {
         path: 'broadcasts', component: BroadcastComponent, canActivate: [seguridadGuard],
         children: [
-            { path: 'create', component: BroadcastCreate },
+            { path: 'create', component: BroadcastCreate, canActivate: [adminGuard] },
             { path: 'list', component: BroadcastList },
-            { path: 'edit/:id', component: BroadcastEdit },
+            { path: 'edit/:id', component: BroadcastEdit, canActivate: [adminGuard] },
         ]
     },
     {
         path: 'monitored-channels', component: MonitoredChannelComponent, canActivate: [seguridadGuard],
         children: [
-            { path: 'create', component: MonitoredChannelCreate },
+            { path: 'create', component: MonitoredChannelCreate, canActivate: [adminGuard] },
             { path: 'list', component: MonitoredChannelList },
-            { path: 'edit/:id', component: MonitoredChannelEdit },
+            { path: 'edit/:id', component: MonitoredChannelEdit, canActivate: [adminGuard] },
         ]
     },
     {
         path: 'metrics', component: MetricSnapshotComponent, canActivate: [seguridadGuard],
         children: [
-            { path: 'create', component: MetricSnapshotCreate },
+            { path: 'create', component: MetricSnapshotCreate, canActivate: [adminGuard] },
             { path: 'list', component: MetricSnapshotList },
-            { path: 'edit/:id', component: MetricSnapshotEdit },
+            { path: 'edit/:id', component: MetricSnapshotEdit, canActivate: [adminGuard] },
         ]
     },
     {
         path: 'ad-detections', component: AdDetectionComponent, canActivate: [seguridadGuard],
         children: [
-            { path: 'create', component: AdDetectionCreate },
+            { path: 'create', component: AdDetectionCreate, canActivate: [adminGuard] },
             { path: 'list', component: AdDetectionList },
-            { path: 'edit/:id', component: AdDetectionEdit },
+            { path: 'edit/:id', component: AdDetectionEdit, canActivate: [adminGuard] },
         ]
     },
     {
         path: 'plans', component: PlanComponent, canActivate: [seguridadGuard],
         children: [
-            { path: 'create', component: PlanInsertar },
+            { path: 'create', component: PlanInsertar, canActivate: [adminGuard] },
             { path: 'list', component: PlanListar },
-            { path: 'edit/:id', component: PlanActualizar },
+            { path: 'edit/:id', component: PlanActualizar, canActivate: [adminGuard] },
         ]
     },
     {
         path: 'regions', component: RegionComponent, canActivate: [seguridadGuard],
         children: [
-            { path: 'create', component: RegionInsertar },
+            { path: 'create', component: RegionInsertar, canActivate: [adminGuard] },
             { path: 'list', component: RegionListar },
-            { path: 'edit/:id', component: RegionActualizar },
+            { path: 'edit/:id', component: RegionActualizar, canActivate: [adminGuard] },
         ]
     },
     {
         path: 'streamers', component: StreamerComponent, canActivate: [seguridadGuard],
         children: [
-            { path: 'create', component: StreamerInsertar },
+            { path: 'create', component: StreamerInsertar, canActivate: [adminGuard] },
             { path: 'list', component: StreamerListar },
-            { path: 'edit/:id', component: StreamerActualizar },
+            { path: 'edit/:id', component: StreamerActualizar, canActivate: [adminGuard] },
         ]
     },
     {
         path: 'roles', component: RoleComponent, canActivate: [adminGuard],
         children: [
-            { path: 'create', component: RoleInsertar },
+            { path: 'create', component: RoleInsertar, canActivate: [adminGuard] },
             { path: 'list', component: RoleListar },
-            { path: 'edit/:id', component: RoleActualizar },
+            { path: 'edit/:id', component: RoleActualizar, canActivate: [adminGuard] },
         ]
     },
     {
         path: 'users', component: UserComponent, canActivate: [adminGuard],
         children: [
-            { path: 'create', component: UserCreate },
+            { path: 'create', component: UserCreate, canActivate: [adminGuard] },
             { path: 'list', component: UserList },
-            { path: 'edit/:id', component: UserEdit },
+            { path: 'edit/:id', component: UserEdit, canActivate: [adminGuard] },
         ]
     },
 ];
