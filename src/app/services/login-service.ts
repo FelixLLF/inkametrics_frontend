@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { JwtRequestDTO } from '../models/JwtRequestDTO';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from '../../environments/environment';
+
+const base_url = environment.base;
 
 @Injectable({
     providedIn: 'root',
@@ -18,11 +21,11 @@ export class LoginService {
     }
 
     login(request: JwtRequestDTO) {
-        return this.http.post('http://localhost:8080/InkaMetrics/tf/login', request);
+        return this.http.post(`${base_url}/InkaMetrics/tf/login`, request);
     }
 
     register(data: { username: string; password: string; companyId: number | null }) {
-        return this.http.post('http://localhost:8080/InkaMetrics/tf/register', data, { responseType: 'text' });
+        return this.http.post(`${base_url}/InkaMetrics/tf/register`, data, { responseType: 'text' });
     }
 
     verificar(): boolean {
